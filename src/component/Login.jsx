@@ -14,8 +14,9 @@ import {
     useToast,
     VStack,
 } from '@chakra-ui/react';
+import { GoogleLogin } from '@react-oauth/google';
 import React, { useEffect, useState } from 'react';
-import { FaComment, FaGoogle } from 'react-icons/fa';
+import { FaComment } from 'react-icons/fa';
 
 const LoginPage = () => {
   const [currentGreeting, setCurrentGreeting] = useState(0);
@@ -41,7 +42,6 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Here you would typically handle the login logic
     console.log('Login attempted with:', { email, password });
     toast({
       title: "Login Attempted",
@@ -52,13 +52,25 @@ const LoginPage = () => {
     });
   };
 
-  const handleGoogleLogin = () => {
-    console.log('Google login clicked');
+  const handleGoogleLoginSuccess = (credentialResponse) => {
+    console.log('Google login success:', credentialResponse);
     toast({
-      title: "Google Login",
-      description: "Redirecting to Google login...",
-      status: "info",
-      duration: 2000,
+      title: "Google Login Successful",
+      description: "You've successfully logged in with Google.",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+    // Here you would typically send the credentialResponse.credential to your backend
+  };
+
+  const handleGoogleLoginError = () => {
+    console.log('Google login failed');
+    toast({
+      title: "Google Login Failed",
+      description: "An error occurred during Google login.",
+      status: "error",
+      duration: 3000,
       isClosable: true,
     });
   };
@@ -138,15 +150,12 @@ const LoginPage = () => {
           </form>
           <Divider my={6} />
           <VStack spacing={4}>
-            <Button
-              onClick={handleGoogleLogin}
-              leftIcon={<FaGoogle />}
-              colorScheme="red"
-              variant="outline"
-              width="full"
-            >
-              Google로 로그인
-            </Button>
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={handleGoogleLoginError}
+              width="300px"
+              useOneTap
+            />
             <Button
               onClick={handleKakaoLogin}
               leftIcon={<FaComment />}
