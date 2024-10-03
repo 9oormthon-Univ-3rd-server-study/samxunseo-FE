@@ -18,7 +18,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import React, { useEffect, useState } from 'react';
 import { FaComment } from 'react-icons/fa';
 
-const LoginPage = () => {
+const Login = () => {
   const [currentGreeting, setCurrentGreeting] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -76,14 +76,31 @@ const LoginPage = () => {
   };
 
   const handleKakaoLogin = () => {
-    console.log('Kakao login clicked');
-    toast({
-      title: "Kakao Login",
-      description: "Redirecting to Kakao login...",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-    });
+    if (window.Kakao) {
+      window.Kakao.Auth.login({
+        success: function(authObj) {
+          console.log(authObj);
+          toast({
+            title: "Kakao Login Successful",
+            description: "You've successfully logged in with Kakao.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+    
+        },
+        fail: function(err) {
+          console.error(err);
+          toast({
+            title: "Kakao Login Failed",
+            description: "An error occurred during Kakao login.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        },
+      });
+    }
   };
 
   const bgColor = useColorModeValue('white', 'gray.700');
@@ -172,4 +189,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
