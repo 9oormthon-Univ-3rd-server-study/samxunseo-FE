@@ -1,18 +1,18 @@
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import {
-    Box,
-    Button,
-    Container,
-    Divider,
-    Heading,
-    IconButton,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Text,
-    useColorModeValue,
-    useToast,
-    VStack,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Heading,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Text,
+  useColorModeValue,
+  useToast,
+  VStack,
 } from '@chakra-ui/react';
 import { GoogleLogin } from '@react-oauth/google';
 import React, { useEffect, useState } from 'react';
@@ -76,31 +76,7 @@ const Login = () => {
   };
 
   const handleKakaoLogin = () => {
-    if (window.Kakao) {
-      window.Kakao.Auth.login({
-        success: function(authObj) {
-          console.log(authObj);
-          toast({
-            title: "Kakao Login Successful",
-            description: "You've successfully logged in with Kakao.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-          });
-    
-        },
-        fail: function(err) {
-          console.error(err);
-          toast({
-            title: "Kakao Login Failed",
-            description: "An error occurred during Kakao login.",
-            status: "error",
-            duration: 3000,
-            isClosable: true,
-          });
-        },
-      });
-    }
+    window.location.href = 'http://localhost:8080/oauth/kakao';
   };
 
   const bgColor = useColorModeValue('white', 'gray.700');
